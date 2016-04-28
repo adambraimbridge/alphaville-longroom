@@ -18,7 +18,12 @@ router.use('/', (req, res, next) => {
 	}
     return renderPage(res, 'barrier', 'index', {
         title: 'FT Alphaville',
-        barrierModel: req.barrierModel,
+        barrierModel: {
+	        login: 'https://accounts.ft.com/login',
+	        register: 'https://register.ft.com/',
+	        subscriptions: 'https://subscribe.ft.com/psp?segId=70703'
+	        
+        },
         headerConfig: headerConfig.setSelected('Longroom'),
         partials: {
             barrier: '../bower_components/alphaville-barrier/main.hjs'
