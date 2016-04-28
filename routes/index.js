@@ -12,6 +12,7 @@ const authConfig = {
 };
 
 router.use('/', (req, res, next) => {
+	console.log(req.get(authConfig.checkHeader));
     res.set('Vary', authConfig.checkHeader);
     if(req.get(authConfig.checkHeader) === authConfig.access) {
         return next();
