@@ -8,28 +8,21 @@ const headerConfig = require('alphaville-header-config');
 
 const authConfig = {
 	checkHeader: process.env['AUTH_HEADER'],
-    access: process.env['AUTH_HEADER_VALUE']
+    checkHeaderValue: process.env['AUTH_HEADER_VALUE']
 };
 
-router.use('/', (req, res, next) => {
-	console.log(req.get(authConfig.checkHeader));
-    res.set('Vary', authConfig.checkHeader);
-    if(req.get(authConfig.checkHeader) === authConfig.access) {
-        return next();
+router.use('/', auth(authConfig), (req, res, next) => {
+	if (req.hasOwnProperty('isAuthenticated') && req.isAuthenticated === false ) {
+		return renderPage(res, 'barrier', 'index', {
+			title: 'FT Alphaville',
+			barrierModel: req.barrierModel,
+			headerConfig: headerConfig.setSelected('Longroom'),
+			partials: {
+				barrier: '../bower_components/alphaville-barrier/main.hjs'
+			}
+		});
 	}
-    return renderPage(res, 'barrier', 'index', {
-        title: 'FT Alphaville',
-        barrierModel: {
-	        login: 'https://accounts.ft.com/login',
-	        register: 'https://register.ft.com/',
-	        subscriptions: 'https://subscribe.ft.com/psp?segId=70703'
-	        
-        },
-        headerConfig: headerConfig.setSelected('Longroom'),
-        partials: {
-            barrier: '../bower_components/alphaville-barrier/main.hjs'
-        }
-    });
+	return next();
 });
 
 router.get('/', (req, res) => {
