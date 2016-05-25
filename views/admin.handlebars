@@ -1,0 +1,48 @@
+{{#contentFor "head"}}
+	<link rel="stylesheet" href="{{assetsBasePath}}/build/main.css" />
+
+	<script>
+		(function () {
+			ctmLoadScript({
+				src: "{{assetsBasePath}}/build/main.js",
+				async: true
+			});
+		}());
+	</script>
+{{/contentFor}}
+
+<div class="o-grid-container">
+	<div class="o-grid-row">
+		<div data-o-grid-colspan="8">
+      <h1>Admin section</h1>
+			<h2>Pending users:</h2>
+			<ul class="lrusers">
+				{{#each pendingUsers}}
+					<li>
+						{{user_id}}
+						<a class="o-buttons o-buttons--standout" href="{{../basePath}}/membership/approve/{{user_id}}">Approve</a>
+						<a class="o-buttons" href="{{../basePath}}/membership/reject/{{user_id}}">Reject</a>
+					</li>
+				{{/each}}
+			</ul>
+			<h2>Accepted users:</h2>
+			<ul class="lrusers">
+				{{#each members}}
+					<li>
+						{{user_id}}
+						<a class="o-buttons o-buttons--standout" href="#">Revoke</a>
+					</li>
+				{{/each}}
+			</ul>
+			<h2>Rejected users:</h2>
+			<ul class="lrusers">
+				{{#each rejectedUsers}}
+					<li>
+						{{user_id}}
+						<a class="o-buttons o-buttons--standout" href="{{../basePath}}/membership/approve/{{user_id}}">Approve</a>
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</div>
