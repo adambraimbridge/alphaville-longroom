@@ -1,18 +1,20 @@
 'use strict';
 
 const router = require('express').Router();
-const userSessionApi = require('../lib/services/userSessionApi');
+const membershipCtrl = require('../lib/controllers/membership');
 
-router.route('/').
-	get((req, res) => {
-		let sessionId = req.cookies['FTSession'];
-		if ( !sessionId ) {
-			return res.render('error', {message: 'Invalid session'});
-		}
-		userSessionApi.getSessionData(sessionId).
-			then(sessionData => {
-				res.render('joinForm');
-			}).catch(console.log);
-	});
+router.param('uuid', membershipCtrl.params);
+
+router.route('/join').
+	get(membershipCtrl.applyForLr);
+
+router.route('/thanks').
+	get(membershipCtrl.thanks);
+
+router.route('/approve/:uuid').
+	get(membershipCtrl.approve);
+
+router.route('/reject/:uuid').
+	get(membershipCtrl.reject);
 
 module.exports = router;
