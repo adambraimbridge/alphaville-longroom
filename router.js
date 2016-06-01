@@ -2,8 +2,10 @@
 
 const router = require('express').Router();
 const auth = require('alphaville-auth-middleware');
+const userMiddleware = require('./lib/middlewares/user');
 
 router.use('/', auth());
+router.use('/', userMiddleware);
 
 router.use('/', require('./routes/index'));
 router.use('/', require('./routes/discussionsRouter'));
